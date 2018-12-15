@@ -3,7 +3,7 @@ t = linspace(-1,1,fs);
 
 convolution = zeros(1,length(t));
 
-ax = [-1 1 -0.2 1.2];    
+ax = [-1 1 -0.2 1.2];
 
 % ========== plot the two signals (x1 and x2):
 disp('x1: single rectangle pulse with width of 1.0')
@@ -11,12 +11,12 @@ disp('x2: single triangle  pulse with width of 0.5')
 x1 = rectpuls(t,1);
 x2 = tripuls(t,0.5,-1);
 
-subplot(4,2,1);plot(t,x1,'Color','blue','LineWidth',2),axis(ax); 
+subplot(4,2,1);plot(t,x1,'Color','blue','LineWidth',2),axis(ax);
 grid on;
 xlabel('t')
 ylabel('x1')
 
-subplot(4,2,2);plot(t,x2,'Color','red','LineWidth',2),axis(ax); 
+subplot(4,2,2);plot(t,x2,'Color','red','LineWidth',2),axis(ax);
 grid on;
 xlabel('t')
 ylabel('x2')
