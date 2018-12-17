@@ -8,7 +8,8 @@ app.SlideAxes.YLim = [min(min(app.x2), min(app.x1))-0.2 max(max(app.x2), max(app
 iter = length(app.t);
 for i = 1:iter
     moveStep = (2*i - app.fs) / app.fs;
-    x2_shifted = tripuls(moveStep - app.t, 0.5, -1);
+    x2_shifted = rectpuls(moveStep - app.t,1);
+    %x2_shifted = tripuls(moveStep - app.t, 0.5, -1);
     app.convolution(i) = trapz(app.t, app.x1.*x2_shifted);
     
     plot(app.SlideAxes,app.t, app.x1,'Color','blue','LineWidth',2);
