@@ -4,11 +4,33 @@ cla(app.SlideAxes)
 cla(app.ConvAxes)
 
 
-t1 = -10:app.sampleInt:10;
-x1 = 0.1*(t1.^2);
+%t1 = -10:app.sampleInt:10;
+%x1 = 0.1*(t1.^2);
+t1 = -1:app.sampleInt:1;
+switch (app.x1DropDown.Value)
+    case 'rect'
+        x1 = rectpuls(t1,2);
+    case 'x=t'
+        x1 = t1;
+    case 'sin'
+        x1 = sin(2*pi*t1);
+    case 'cos'
+        x1 = cos(2*pi*t1);
+end
 
-t2 = -7:app.sampleInt:7;
-x2 = -0.1*(t2.^2);
+t2 = -1:app.sampleInt:1;
+switch (app.x2DropDown.Value)
+    case 'rect'
+        x2 = rectpuls(t2,2);
+    case 'x=t'
+        x2 = t2;
+    case 'sin'
+        x2 = sin(2*pi*t2);
+    case 'cos'
+        x2 = cos(2*pi*t2);
+end
+%t2 = -7:app.sampleInt:7;
+%x2 = -0.1*(t2.^2);
 
 convolution = app.sampleInt * conv(x1, x2);
 
@@ -23,39 +45,39 @@ tc = tc+max(t2);
 plot(app.SlideAxes, t1, x1);
 hold(app.SlideAxes);
 
-q = plot(app.SlideAxes, t2f, x2, 'r');
+slidePlot = plot(app.SlideAxes, t2f, x2, 'r');
 app.SlideAxes.XLim = [(min(t1)-abs(max(t2f)-min(t2f))-1) (max(t1)+abs(max(t2f)-min(t2f))+1)];
-u_ym = app.SlideAxes.YLim;
+yLim = app.SlideAxes.YLim;
 
-s_l = line(app.SlideAxes,[min(t1) min(t1)], [u_ym(1) u_ym(2)], 'color','g');
-e_l = line(app.SlideAxes,[min(t1) min(t1)], [u_ym(1) u_ym(2)], 'color','g');
-sg = rectangle(app.SlideAxes, 'Position', [min(t1) u_ym(1) 0.0001 u_ym(2)-u_ym(1)], ...
+startLine = line(app.SlideAxes,[min(t1) min(t1)], [yLim(1) yLim(2)], 'color','g');
+endLine = line(app.SlideAxes,[min(t1) min(t1)], [yLim(1) yLim(2)], 'color','g');
+overlapRegion = rectangle(app.SlideAxes, 'Position', [min(t1) yLim(1) 0.0001 yLim(2)-yLim(1)], ...
 	'FaceColor', [1 1 0 0.5], 'EraseMode', 'xor');
 
-r = plot(app.ConvAxes,tc, convolution);
+convPlot = plot(app.ConvAxes,tc, convolution);
 app.ConvAxes.XLim = [(min(t1)-abs(max(t2f)-min(t2f))-1) (max(t1)+abs(max(t2f)-min(t2f))+1)];
 
 for i=1:length(tc)
-    pause(0.01);
+    pause(0.1);
     drawnow;
     
     t2f=t2f+app.sampleInt;
-    set(q,'EraseMode','xor');
-    set(q,'XData',t2f,'YData',x2f);
+    set(slidePlot,'EraseMode','xor');
+    set(slidePlot,'XData',t2f,'YData',x2f);
     
     sx = min(max(t2f(1), min(t1)), max(t1));
-    set(s_l,'EraseMode','xor');
-    set(s_l, 'XData', [sx sx]);
+    set(startLine,'EraseMode','xor');
+    set(startLine, 'XData', [sx sx]);
     
     ex = min(t2f(end), max(t1));
-    set(e_l,'EraseMode','xor');
-    set(e_l, 'XData', [ex ex]);
+    set(endLine,'EraseMode','xor');
+    set(endLine, 'XData', [ex ex]);
     
-    rpos = [sx u_ym(1) max(0.0001, ex-sx) u_ym(2)-u_ym(1)];
-    set(sg, 'Position', rpos);
+    cPos = [sx yLim(1) max(0.0001, ex-sx) yLim(2)-yLim(1)];
+    set(overlapRegion, 'Position', cPos);
     
-    set(r,'EraseMode','xor');
-    set(r,'XData',tc(1:i),'YData',convolution(1:i));
+    set(convPlot,'EraseMode','xor');
+    set(convPlot,'XData',tc(1:i),'YData',convolution(1:i));
     
 end
 

@@ -1,4 +1,22 @@
-function SignalSubplot(t, x, axes, col)
-    axes.YLim = [min(x)-0.2 max(x)+0.2];
-    plot(axes,t,x,'Color',col,'LineWidth',2);
+function SignalSubplot(s, dropDown, axes)
+    if s == 1
+        col = 'blue';
+        t = -2:0.1:2;
+    else
+        col = 'red';
+        t = -2:0.1:2;
+    end
+    
+    switch (dropDown.Value)
+        case 'rect'
+            x = rectpuls(t,2);
+        case 'x=t'
+            x = t;
+        case 'sin'
+            x = sin(2*pi*t);
+        case 'cos'
+            x = cos(2*pi*t);
+    end
+    
+    plot(axes,t,x,'Color',col);
 end
