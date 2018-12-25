@@ -1,4 +1,4 @@
-function SignalSubplot(s, dropDown, axes)
+function SignalSelect(s, dropDown, axes)
     if s == 1
         col = 'blue';
         t = -2:0.1:2;
